@@ -1,6 +1,6 @@
 
 const gameBoard = (function () {
-    let array = ["-", "-", "-", "-", "-", "-", "-", "-", "-",];
+    let array = [["-", "-", "-"], ["-", "-", "-"], ["-", "-", "-"]];
     return {
         array
     };
@@ -16,7 +16,22 @@ function players() {
 }
 
 function gameFlow() {
+    let winner = false;
+    let getRow; 
+    let getColumn;
+    function playTurn(getCurrentPlayer){
+        getRow = prompt("Pick Number 1-3");
+        getColumn = prompt("Pick Number 1-3");
+        gameBoard.array[getRow-1][getColumn-1] = getCurrentPlayer;
+    }
     return {
-
+        playTurn
     };
 }
+
+const game = gameFlow();
+const player = players();
+
+game.playTurn(player.player1);
+game.playTurn(player.player2);
+console.log(gameBoard.array)
