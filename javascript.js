@@ -7,31 +7,43 @@ const gameBoard = (function () {
 })();
 
 function players() {
-    const player1 = "X";
-    const player2 = "O";
+    let currentPlayer = "X";
+
+    function switchPlayers() {
+        if (currentPlayer == 'X'){
+            console.log(`It is now ${currentPlayer}'s turn.`);
+            return currentPlayer = 'O';
+        }
+        else {
+            console.log(`It is now ${currentPlayer}'s turn.`);
+            return currentPlayer = 'X';
+        }
+    }
+
+    function getCurrentPlayer() {
+        return currentPlayer;
+    }
     return {
-        player1,
-        player2
+        switchPlayers,
+        getCurrentPlayer
     };
 }
 
 function gameFlow() {
-    let winner = false;
-    let getRow; 
-    let getColumn;
-    function playTurn(getCurrentPlayer){
-        getRow = prompt("Pick Number 1-3");
-        getColumn = prompt("Pick Number 1-3");
-        gameBoard.array[getRow-1][getColumn-1] = getCurrentPlayer;
+    let player = new players();
+
+    const positionOnBoard = (row, col) => gameBoard.array[row][col] = player.getCurrentPlayer(); 
+
+    function playRound(getRow, getCol){
+        player.switchPlayers();
+        positionOnBoard(getRow, getCol);
+        console.log(gameBoard.array);
+
     }
+    console.log(gameBoard.array)
     return {
-        playTurn
+        playRound
     };
 }
 
 const game = gameFlow();
-const player = players();
-
-game.playTurn(player.player1);
-game.playTurn(player.player2);
-console.log(gameBoard.array)
