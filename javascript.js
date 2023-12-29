@@ -7,7 +7,7 @@ const gameBoard = (function () {
 })();
 
 function players() {
-    let currentPlayer = "X";
+    let currentPlayer = 'O';
 
     function switchPlayers() {
         if (currentPlayer == 'X'){
@@ -34,9 +34,20 @@ function gameFlow() {
 
     const positionOnBoard = (row, col) => gameBoard.array[row][col] = player.getCurrentPlayer(); 
 
+    function availableSlot(getRow, getCol) {
+        if (gameBoard.array[getRow][getCol] == '-'){
+            return true;
+        }
+    }
+
     function playRound(getRow, getCol){
-        player.switchPlayers();
-        positionOnBoard(getRow, getCol);
+        if (availableSlot(getRow, getCol)){
+            player.switchPlayers();
+            positionOnBoard(getRow, getCol);
+        }
+        else {
+            console.log("Cannot Position here, it is already taken.")
+        }
         console.log(gameBoard.array);
 
     }
