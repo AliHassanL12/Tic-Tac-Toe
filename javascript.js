@@ -6,7 +6,9 @@ const gameBoard = (function () {
         // 3 in a row are x or o, 3 in a col are x or o, and 3 in diag are x or o.
         for(let i=0; i <gameBoard.array.length; i++) {
          if ((gameBoard.array[i][0] == playerMarker && gameBoard.array[i][1] == playerMarker && gameBoard.array[i][2] == playerMarker) || 
-             (gameBoard.array[0][i] == playerMarker && gameBoard.array[1][i] == playerMarker && gameBoard.array[2][i] == playerMarker)) {
+             (gameBoard.array[0][i] == playerMarker && gameBoard.array[1][i] == playerMarker && gameBoard.array[2][i] == playerMarker) || 
+             (gameBoard.array[0][0] == playerMarker && gameBoard.array[1][1] == playerMarker && gameBoard.array[2][2] == playerMarker) ||
+             (gameBoard.array[0][2] == playerMarker && gameBoard.array[1][1] == playerMarker && gameBoard.array[2][0] == playerMarker)){
              console.log(`Congrats, ${playerMarker} Wins`);
              return true;
          }
