@@ -1,6 +1,6 @@
 
 const gameBoard = (function () {
-    let array = [["-", "-", "-"], ["-", "-", "-"], ["-", "-", "-"]];
+    const array = [["-", "-", "-"], ["-", "-", "-"], ["-", "-", "-"]];
     return {
         array
     };
@@ -11,10 +11,10 @@ function players() {
 
     function switchPlayers() {
         if (currentPlayer == 'X'){
-            return currentPlayer = 'O';
+            currentPlayer = 'O';
         }
         else {
-            return currentPlayer = 'X';
+            currentPlayer = 'X';
         }
     }
 
@@ -32,7 +32,7 @@ const game = (function() {
 
     const positionOnBoard = (row, col) => gameBoard.array[row][col] = player.getCurrentPlayer(); 
 
-    function availableSlot(getRow, getCol) {
+    function isSlotAvailable(getRow, getCol) {
         if (gameBoard.array[getRow][getCol] == '-'){
             return true;
         }
@@ -55,10 +55,10 @@ const game = (function() {
     }
 
     function playRound(getRow, getCol){
-        if (availableSlot(getRow, getCol)){
+        if (isSlotAvailable(getRow, getCol)){
             positionOnBoard(getRow, getCol);
         }
-        else if (!availableSlot(getRow, getCol)) {
+        else if (!isSlotAvailable(getRow, getCol)) {
             console.log("Cannot Position here, it is already taken.")
         }
         checkForWin();
