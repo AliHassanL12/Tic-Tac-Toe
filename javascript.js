@@ -7,15 +7,13 @@ const gameBoard = (function () {
 })();
 
 function players() {
-    let currentPlayer = 'O';
+    let currentPlayer = 'X';
 
     function switchPlayers() {
         if (currentPlayer == 'X'){
-            console.log(`It is now ${currentPlayer}'s turn.`);
             return currentPlayer = 'O';
         }
         else {
-            console.log(`It is now ${currentPlayer}'s turn.`);
             return currentPlayer = 'X';
         }
     }
@@ -44,25 +42,32 @@ const game = (function() {
         for (let i=0; i < gameBoard.array.length-2; i++){
             for(let j=0; j < gameBoard.array.length-2; j++){
                 if (gameBoard.array[i][j] == gameBoard.array[i][j+1] && gameBoard.array[i][j+1] == gameBoard.array[i][j+2]){
+                    console.log(`${player.getCurrentPlayer()} Wins`)
                     return true; 
                 }
             }
         }
     }
 
+    function printNewBoard(){
+        console.log(`${player.getCurrentPlayer()}'s Turn`)
+        console.log(gameBoard.array);
+    }
+
     function playRound(getRow, getCol){
         if (availableSlot(getRow, getCol)){
-            player.switchPlayers();
             positionOnBoard(getRow, getCol);
-            checkForWin();
         }
-        else {
+        else if (!availableSlot(getRow, getCol)) {
             console.log("Cannot Position here, it is already taken.")
         }
-        console.log(gameBoard.array);
-
+        checkForWin();
+        if (!checkForWin()){
+            player.switchPlayers();
+            printNewBoard();
+        }
     }
-    console.log(gameBoard.array)
+    printNewBoard();
     return {
         playRound
     };
