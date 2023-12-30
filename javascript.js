@@ -17,7 +17,6 @@ function players() {
             currentPlayer = 'X';
         }
     }
-
     function getCurrentPlayer() {
         return currentPlayer;
     }
@@ -39,14 +38,17 @@ const game = (function() {
     }
 
     function checkForWin() {
-        for (let i=0; i < gameBoard.array.length-2; i++){
-            for(let j=0; j < gameBoard.array.length-2; j++){
-                if (gameBoard.array[i][j] == gameBoard.array[i][j+1] && gameBoard.array[i][j+1] == gameBoard.array[i][j+2]){
-                    console.log(`${player.getCurrentPlayer()} Wins`)
-                    return true; 
-                }
-            }
+       // 3 in a row are x or o, 3 in a col are x or o, and 3 in diag are x or o.
+       for(let i=0; i <gameBoard.array.length; i++) {
+        if (gameBoard.array[i][0] == 'X' && gameBoard.array[i][1] == 'X' && gameBoard.array[i][2] == 'X'){
+            console.log(`Congrats, ${player.getCurrentPlayer()} Wins`);
+            return true;
         }
+        else if(gameBoard.array[0][i] == 'X' && gameBoard.array[1][i] == 'X' && gameBoard.array[2][i] == 'X'){
+            console.log(`Congrats, ${player.getCurrentPlayer()} Wins`);
+            return true;
+        }
+       }
     }
 
     function printNewBoard(){
@@ -57,15 +59,15 @@ const game = (function() {
     function playRound(getRow, getCol){
         if (isSlotAvailable(getRow, getCol)){
             positionOnBoard(getRow, getCol);
+            let hasWon = checkForWin();
+            if (!hasWon){
+                player.switchPlayers();
+            }
         }
         else if (!isSlotAvailable(getRow, getCol)) {
             console.log("Cannot Position here, it is already taken.")
         }
-        checkForWin();
-        if (!checkForWin()){
-            player.switchPlayers();
-            printNewBoard();
-        }
+        printNewBoard();
     }
     printNewBoard();
     return {
