@@ -37,18 +37,15 @@ const game = (function() {
         }
     }
 
-    function checkForWin() {
+    function checkForWin(playerMarker) {
        // 3 in a row are x or o, 3 in a col are x or o, and 3 in diag are x or o.
        for(let i=0; i <gameBoard.array.length; i++) {
-        if (gameBoard.array[i][0] == 'X' && gameBoard.array[i][1] == 'X' && gameBoard.array[i][2] == 'X'){
+        if ((gameBoard.array[i][0] == playerMarker && gameBoard.array[i][1] == playerMarker && gameBoard.array[i][2] == playerMarker) || 
+            (gameBoard.array[0][i] == playerMarker && gameBoard.array[1][i] == playerMarker && gameBoard.array[2][i] == playerMarker)) {
             console.log(`Congrats, ${player.getCurrentPlayer()} Wins`);
             return true;
         }
-        else if(gameBoard.array[0][i] == 'X' && gameBoard.array[1][i] == 'X' && gameBoard.array[2][i] == 'X'){
-            console.log(`Congrats, ${player.getCurrentPlayer()} Wins`);
-            return true;
         }
-       }
     }
 
     function printNewBoard(){
@@ -59,15 +56,15 @@ const game = (function() {
     function playRound(getRow, getCol){
         if (isSlotAvailable(getRow, getCol)){
             positionOnBoard(getRow, getCol);
-            let hasWon = checkForWin();
+            let hasWon = checkForWin(player.getCurrentPlayer());
             if (!hasWon){
                 player.switchPlayers();
+                printNewBoard();
             }
         }
         else if (!isSlotAvailable(getRow, getCol)) {
             console.log("Cannot Position here, it is already taken.")
         }
-        printNewBoard();
     }
     printNewBoard();
     return {
