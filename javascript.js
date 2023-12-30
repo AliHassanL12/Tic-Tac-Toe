@@ -1,8 +1,20 @@
 
 const gameBoard = (function () {
     const array = [["-", "-", "-"], ["-", "-", "-"], ["-", "-", "-"]];
+
+    function checkForWin(playerMarker) {
+        // 3 in a row are x or o, 3 in a col are x or o, and 3 in diag are x or o.
+        for(let i=0; i <gameBoard.array.length; i++) {
+         if ((gameBoard.array[i][0] == playerMarker && gameBoard.array[i][1] == playerMarker && gameBoard.array[i][2] == playerMarker) || 
+             (gameBoard.array[0][i] == playerMarker && gameBoard.array[1][i] == playerMarker && gameBoard.array[2][i] == playerMarker)) {
+             console.log(`Congrats, ${playerMarker} Wins`);
+             return true;
+         }
+         }
+     }
     return {
-        array
+        array,
+        checkForWin
     };
 })();
 
@@ -37,17 +49,6 @@ const game = (function() {
         }
     }
 
-    function checkForWin(playerMarker) {
-       // 3 in a row are x or o, 3 in a col are x or o, and 3 in diag are x or o.
-       for(let i=0; i <gameBoard.array.length; i++) {
-        if ((gameBoard.array[i][0] == playerMarker && gameBoard.array[i][1] == playerMarker && gameBoard.array[i][2] == playerMarker) || 
-            (gameBoard.array[0][i] == playerMarker && gameBoard.array[1][i] == playerMarker && gameBoard.array[2][i] == playerMarker)) {
-            console.log(`Congrats, ${player.getCurrentPlayer()} Wins`);
-            return true;
-        }
-        }
-    }
-
     function printNewBoard(){
         console.log(`${player.getCurrentPlayer()}'s Turn`)
         console.log(gameBoard.array);
@@ -56,7 +57,7 @@ const game = (function() {
     function playRound(getRow, getCol){
         if (isSlotAvailable(getRow, getCol)){
             positionOnBoard(getRow, getCol);
-            let hasWon = checkForWin(player.getCurrentPlayer());
+            let hasWon = gameBoard.checkForWin(player.getCurrentPlayer());
             if (!hasWon){
                 player.switchPlayers();
                 printNewBoard();
