@@ -29,7 +29,7 @@ function players() {
     };
 }
 
-function gameFlow() {
+const game = (function() {
     let player = new players();
 
     const positionOnBoard = (row, col) => gameBoard.array[row][col] = player.getCurrentPlayer(); 
@@ -40,10 +40,21 @@ function gameFlow() {
         }
     }
 
+    function checkForWin() {
+        for (let i=0; i < gameBoard.array.length-2; i++){
+            for(let j=0; j < gameBoard.array.length-2; j++){
+                if (gameBoard.array[i][j] == gameBoard.array[i][j+1] && gameBoard.array[i][j+1] == gameBoard.array[i][j+2]){
+                    return true; 
+                }
+            }
+        }
+    }
+
     function playRound(getRow, getCol){
         if (availableSlot(getRow, getCol)){
             player.switchPlayers();
             positionOnBoard(getRow, getCol);
+            checkForWin();
         }
         else {
             console.log("Cannot Position here, it is already taken.")
@@ -55,6 +66,5 @@ function gameFlow() {
     return {
         playRound
     };
-}
+})();
 
-const game = gameFlow();
