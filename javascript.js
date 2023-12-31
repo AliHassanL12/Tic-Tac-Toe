@@ -10,7 +10,7 @@ const gameBoard = (function () {
     }
 
     function checkForWin(playerMarker) {
-        // 3 in a row are x or o, 3 in a col are x or o, and 3 in diag are x or o.
+        //win if 3 in a row are x or o, 3 in a col are x or o, and 3 in diag are x or o.
         for(let i=0; i <gameBoard.array.length; i++) {
          if ((gameBoard.array[i][0] == playerMarker && gameBoard.array[i][1] == playerMarker && gameBoard.array[i][2] == playerMarker) || 
              (gameBoard.array[0][i] == playerMarker && gameBoard.array[1][i] == playerMarker && gameBoard.array[2][i] == playerMarker) || 
@@ -82,5 +82,18 @@ const game = (function() {
     return {
         playRound
     };
+})();
+
+const displayDOM = (function() {
+    const container = document.querySelector('.container');
+
+    for (let i=0; i<gameBoard.array.length; i++){
+        for(let j=0; j<gameBoard.array.length; j++) {
+            const cell = document.createElement('div');
+            cell.textContent = gameBoard.array[i][j];
+            cell.classList.add('cell');
+            container.appendChild(cell);
+        }
+    }
 })();
 
