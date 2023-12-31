@@ -72,6 +72,7 @@ const game = (function() {
             if (!hasWon || !hasDrawn){
                 player.switchPlayers();
                 printNewBoard();
+                displayDOM.displayArray();
             }
         }
         else if (!isSlotAvailable(getRow, getCol)) {
@@ -87,13 +88,27 @@ const game = (function() {
 const displayDOM = (function() {
     const container = document.querySelector('.container');
 
-    for (let i=0; i<gameBoard.array.length; i++){
-        for(let j=0; j<gameBoard.array.length; j++) {
-            const cell = document.createElement('div');
-            cell.textContent = gameBoard.array[i][j];
-            cell.classList.add('cell');
-            container.appendChild(cell);
+    function removeDisplay(){
+        const allCells = document.querySelectorAll('.cell');
+        allCells.forEach((element) => {
+            element.remove();
+        })
+    }
+
+    function displayArray(){
+        removeDisplay();
+        for (let i=0; i<gameBoard.array.length; i++){
+            for(let j=0; j<gameBoard.array.length; j++) {
+                const cell = document.createElement('div');
+                cell.textContent = gameBoard.array[i][j];
+                cell.classList.add('cell');
+                container.appendChild(cell);
+            }
         }
+    }
+    displayArray()
+    return {
+        displayArray,
     }
 })();
 

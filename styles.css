@@ -1,7 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit&family=Work+Sans:wght@200&display=swap');
+
 body {
     margin: 0;
     padding: 0;
-    background-color: #ccfbf1;
+    background-color: #99f6e4;
+    font-family: 'Outfit', sans-serif;
+    font-family: 'Work Sans', sans-serif;
 }
 
 .container {
@@ -21,4 +25,6 @@ body {
     justify-content: center;
     align-items: center;
     border: solid #09090b;
+    background-color: white;
+    font-size: 75px;
 }
