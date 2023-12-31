@@ -2,6 +2,13 @@
 const gameBoard = (function () {
     const array = [["-", "-", "-"], ["-", "-", "-"], ["-", "-", "-"]];
 
+    function checkForDraw(){
+        if (!array[0].includes("-") && !array[1].includes("-") && !array[2].includes("-")){
+            console.log("Game Over, No Winners");
+            return true;
+        }
+    }
+
     function checkForWin(playerMarker) {
         // 3 in a row are x or o, 3 in a col are x or o, and 3 in diag are x or o.
         for(let i=0; i <gameBoard.array.length; i++) {
@@ -16,7 +23,8 @@ const gameBoard = (function () {
      }
     return {
         array,
-        checkForWin
+        checkForWin,
+        checkForDraw
     };
 })();
 
@@ -60,7 +68,8 @@ const game = (function() {
         if (isSlotAvailable(getRow, getCol)){
             positionOnBoard(getRow, getCol);
             let hasWon = gameBoard.checkForWin(player.getCurrentPlayer());
-            if (!hasWon){
+            let hasDrawn = gameBoard.checkForDraw();
+            if (!hasWon || !hasDrawn){
                 player.switchPlayers();
                 printNewBoard();
             }
