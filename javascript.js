@@ -71,8 +71,8 @@ const game = (function() {
             let hasDrawn = gameBoard.checkForDraw();
             if (!hasWon || !hasDrawn){
                 player.switchPlayers();
-                printNewBoard();
                 displayDOM.displayArray();
+                printNewBoard();
             }
         }
         else if (!isSlotAvailable(getRow, getCol)) {
@@ -88,6 +88,16 @@ const game = (function() {
 const displayDOM = (function() {
     const container = document.querySelector('.container');
 
+    function placeItems(){
+        const allCells = document.querySelectorAll('.cell');
+        allCells.forEach((element) => {
+        element.addEventListener("click", function(){
+            game.playRound(element.getAttribute("First"), element.getAttribute("Second"))
+        });
+        });
+    }
+
+
     function removeDisplay(){
         const allCells = document.querySelectorAll('.cell');
         allCells.forEach((element) => {
@@ -102,9 +112,12 @@ const displayDOM = (function() {
                 const cell = document.createElement('div');
                 cell.textContent = gameBoard.array[i][j];
                 cell.classList.add('cell');
+                cell.setAttribute("First", i);
+                cell.setAttribute("Second", j);
                 container.appendChild(cell);
             }
         }
+        placeItems();
     }
     displayArray()
     return {
