@@ -4,8 +4,10 @@ const gameBoard = (function () {
 
     function checkForDraw(){
         if (!array[0].includes("-") && !array[1].includes("-") && !array[2].includes("-")){
-            console.log("Game Over, No Winners");
             return true;
+        }
+        else {
+            return false;
         }
     }
 
@@ -16,7 +18,6 @@ const gameBoard = (function () {
              (gameBoard.array[0][i] == playerMarker && gameBoard.array[1][i] == playerMarker && gameBoard.array[2][i] == playerMarker) || 
              (gameBoard.array[0][0] == playerMarker && gameBoard.array[1][1] == playerMarker && gameBoard.array[2][2] == playerMarker) ||
              (gameBoard.array[0][2] == playerMarker && gameBoard.array[1][1] == playerMarker && gameBoard.array[2][0] == playerMarker)){
-             console.log(`Congrats, ${playerMarker} Wins`);
              return true;
          }
          }
@@ -59,6 +60,8 @@ const game = (function() {
         }
     }
 
+    const hasWon = () => gameBoard.checkForWin(player.getCurrentPlayer());
+
     function printNewBoard(){
         console.log(`${player.getCurrentPlayer()}'s Turn`)
         console.log(gameBoard.array);
@@ -67,12 +70,14 @@ const game = (function() {
     function playRound(getRow, getCol){
         if (isSlotAvailable(getRow, getCol)){
             positionOnBoard(getRow, getCol);
-            let hasWon = gameBoard.checkForWin(player.getCurrentPlayer());
             let hasDrawn = gameBoard.checkForDraw();
-            if (!hasWon || !hasDrawn){
+            if (!hasWon()){
                 player.switchPlayers();
                 displayDOM.displayArray();
                 printNewBoard();
+            }
+            else {
+                displayDOM.displayArray();
             }
         }
         else if (!isSlotAvailable(getRow, getCol)) {
@@ -81,7 +86,8 @@ const game = (function() {
     }
     printNewBoard();
     return {
-        playRound
+        playRound,
+        hasWon
     };
 })();
 
@@ -117,11 +123,13 @@ const displayDOM = (function() {
                 container.appendChild(cell);
             }
         }
-        placeItems();
+        if(!game.hasWon()){
+            placeItems();
+        }   
     }
-    displayArray()
     return {
         displayArray,
+        placeItems
     }
 })();
 
