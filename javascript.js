@@ -3,11 +3,9 @@ const gameBoard = (function () {
     let array = [["-", "-", "-"], ["-", "-", "-"], ["-", "-", "-"]];
 
     function checkForDraw(){
-        if (!array[0].includes("-") && !array[1].includes("-") && !array[2].includes("-")){
+        if (!array[0].includes("-") && !array[1].includes("-") && !array[2].includes("-") && draw == false){
+            draw = true;
             return true;
-        }
-        else {
-            return false;
         }
     }
     function checkForWin(playerMarker) {
@@ -60,38 +58,30 @@ const game = (function() {
     }
 
     const hasWon = () => gameBoard.checkForWin(player.getCurrentPlayer());
-
-    function printNewBoard(){
-        console.log(`${player.getCurrentPlayer()}'s Turn`)
-        console.log(gameBoard.array);
-    }
+    const hasDrawn = () => gameBoard.checkForDraw();
 
     function playRound(getRow, getCol){
         if (isSlotAvailable(getRow, getCol)){
             positionOnBoard(getRow, getCol);
-            let hasDrawn = gameBoard.checkForDraw();
             if (!hasWon()){
                 player.switchPlayers();
                 displayDOM.displayArray();
-                printNewBoard();
             }
-            else {
+            else if (hasWon()){
                 displayDOM.displayArray();
+                displayDOM.announceWinner();
             }
-        }
-        else if (!isSlotAvailable(getRow, getCol)) {
-            console.log("Cannot Position here, it is already taken.")
         }
     }
-    printNewBoard();
     return {
+        player,
         playRound,
-        hasWon
+        hasWon,
+        hasDrawn
     };
 })();
 
 const displayDOM = (function() {
-    let player = players();
     const container = document.querySelector('.container');
     const startBtn = document.querySelector('.start-game');
     const resetBtn = document.querySelector('.reset-game');
@@ -115,9 +105,15 @@ const displayDOM = (function() {
         winner.textContent = " ";
     }
 
+    function announceDraw(){
+        const winner = document.querySelector('.winner');
+        winner.textContent = "No Winner. Draw.";
+        displayDOM.displayArray();
+    }
+
     function announceWinner(){
         const winner = document.querySelector(".winner");
-        winner.textContent = `${player.getCurrentPlayer()} Has Won!`
+        winner.textContent = `${game.player.getCurrentPlayer()} Has Won!`
     }
 
     function removeDisplay(){
@@ -128,7 +124,6 @@ const displayDOM = (function() {
     }
 
     function displayArray(){
-        player.switchPlayers();
         removeDisplay();
         for (let i=0; i<gameBoard.array.length; i++){
             for(let j=0; j<gameBoard.array.length; j++) {
@@ -140,16 +135,15 @@ const displayDOM = (function() {
                 container.appendChild(cell);
             }
         }
-        if (game.hasWon()){
-            announceWinner();
-        }   
-        else {
+        if(!game.hasWon()){
             placeItems();
         }
     }
     return {
         displayArray,
-        placeItems
+        placeItems,
+        announceDraw,
+        announceWinner
     }
 })();
 
