@@ -64,3 +64,8 @@ body {
     width: 300px;
     gap: 30px;
 }
+
+.winner {
+    font-size: 25px;
+    padding: 30px;
+}

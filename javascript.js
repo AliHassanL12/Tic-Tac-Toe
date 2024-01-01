@@ -1,6 +1,6 @@
 
 const gameBoard = (function () {
-    const array = [["-", "-", "-"], ["-", "-", "-"], ["-", "-", "-"]];
+    let array = [["-", "-", "-"], ["-", "-", "-"], ["-", "-", "-"]];
 
     function checkForDraw(){
         if (!array[0].includes("-") && !array[1].includes("-") && !array[2].includes("-")){
@@ -10,7 +10,6 @@ const gameBoard = (function () {
             return false;
         }
     }
-
     function checkForWin(playerMarker) {
         //win if 3 in a row are x or o, 3 in a col are x or o, and 3 in diag are x or o.
         for(let i=0; i <gameBoard.array.length; i++) {
@@ -92,7 +91,13 @@ const game = (function() {
 })();
 
 const displayDOM = (function() {
+    let player = players();
     const container = document.querySelector('.container');
+    const startBtn = document.querySelector('.start-game');
+    const resetBtn = document.querySelector('.reset-game');
+
+    startBtn.addEventListener("click", displayArray);
+    resetBtn.addEventListener("click", resetGame);
 
     function placeItems(){
         const allCells = document.querySelectorAll('.cell');
@@ -103,6 +108,17 @@ const displayDOM = (function() {
         });
     }
 
+    function resetGame(){
+        const winner = document.querySelector('.winner');
+        gameBoard.array = [["-", "-", "-"], ["-", "-", "-"], ["-", "-", "-"]];
+        displayDOM.displayArray();
+        winner.textContent = " ";
+    }
+
+    function announceWinner(){
+        const winner = document.querySelector(".winner");
+        winner.textContent = `${player.getCurrentPlayer()} Has Won!`
+    }
 
     function removeDisplay(){
         const allCells = document.querySelectorAll('.cell');
@@ -112,6 +128,7 @@ const displayDOM = (function() {
     }
 
     function displayArray(){
+        player.switchPlayers();
         removeDisplay();
         for (let i=0; i<gameBoard.array.length; i++){
             for(let j=0; j<gameBoard.array.length; j++) {
@@ -123,9 +140,12 @@ const displayDOM = (function() {
                 container.appendChild(cell);
             }
         }
-        if(!game.hasWon()){
-            placeItems();
+        if (game.hasWon()){
+            announceWinner();
         }   
+        else {
+            placeItems();
+        }
     }
     return {
         displayArray,
