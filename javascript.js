@@ -2,9 +2,12 @@
 const gameBoard = (function () {
     let array = [["-", "-", "-"], ["-", "-", "-"], ["-", "-", "-"]];
 
-    function checkForDraw(){
-        if (!array[0].includes("-") && !array[1].includes("-") && !array[2].includes("-") && draw == false){
-            draw = true;
+    function resetArray() {
+        gameBoard.array = [["-", "-", "-"], ["-", "-", "-"], ["-", "-", "-"]];
+    }
+ 
+    function checkForDraw(marker){
+        if (!gameBoard.array[0].includes(marker) && !gameBoard.array[1].includes(marker) && !gameBoard.array[2].includes(marker)){
             return true;
         }
     }
@@ -22,7 +25,8 @@ const gameBoard = (function () {
     return {
         array,
         checkForWin,
-        checkForDraw
+        checkForDraw,
+        resetArray
     };
 })();
 
@@ -37,12 +41,18 @@ function players() {
             currentPlayer = 'X';
         }
     }
+
+    function resetPlayer() {
+        currentPlayer = 'X';
+    }
     function getCurrentPlayer() {
         return currentPlayer;
     }
     return {
+        currentPlayer, 
         switchPlayers,
-        getCurrentPlayer
+        getCurrentPlayer,
+        resetPlayer
     };
 }
 
@@ -58,18 +68,22 @@ const game = (function() {
     }
 
     const hasWon = () => gameBoard.checkForWin(player.getCurrentPlayer());
-    const hasDrawn = () => gameBoard.checkForDraw();
+    const hasDrawn = () => gameBoard.checkForDraw("-");
 
     function playRound(getRow, getCol){
         if (isSlotAvailable(getRow, getCol)){
             positionOnBoard(getRow, getCol);
-            if (!hasWon()){
-                player.switchPlayers();
-                displayDOM.displayArray();
-            }
-            else if (hasWon()){
+            if (hasWon()) {
                 displayDOM.displayArray();
                 displayDOM.announceWinner();
+            }
+            else if (hasDrawn()){
+                displayDOM.displayArray();
+                displayDOM.announceDraw();
+            }
+            else if (!hasWon()){
+                displayDOM.displayArray();
+                player.switchPlayers();
             }
         }
     }
@@ -100,9 +114,11 @@ const displayDOM = (function() {
 
     function resetGame(){
         const winner = document.querySelector('.winner');
-        gameBoard.array = [["-", "-", "-"], ["-", "-", "-"], ["-", "-", "-"]];
+        gameBoard.resetArray();
+        console.log(gameBoard.array);
         displayDOM.displayArray();
         winner.textContent = " ";
+        game.player.resetPlayer();
     }
 
     function announceDraw(){
@@ -135,7 +151,10 @@ const displayDOM = (function() {
                 container.appendChild(cell);
             }
         }
-        if(!game.hasWon()){
+        if (!game.hasDrawn){
+            placeItems();
+        }
+        else if (!game.hasWon()){
             placeItems();
         }
     }
@@ -146,4 +165,3 @@ const displayDOM = (function() {
         announceWinner
     }
 })();
-
