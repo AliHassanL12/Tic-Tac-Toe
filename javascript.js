@@ -132,14 +132,14 @@ const displayDOM = (function() {
 
     function announceWinner(){
         const winner = document.querySelector(".winner");
-        if (game.player.getCurrentPlayer() == "X" && firstPlayerName !== undefined){
+        if (game.player.getCurrentPlayer() == "X" && firstPlayerName !== ""){
             winner.textContent = `${firstPlayerName} Has Won!`
         }
-        else if (game.player.getCurrentPlayer() == "O" && secondPlayerName !== undefined){
+        else if (game.player.getCurrentPlayer() == "O" && secondPlayerName !== ""){
             winner.textContent = `${secondPlayerName} Has Won!`
         }
         else {
-            winner.textContent = `${game.player.getCurrentPlayer()} Has Won!`
+            winner.textContent = `${game.player.getCurrentPlayer()} Has Won!`;
         }
     }
 
@@ -176,8 +176,6 @@ const displayDOM = (function() {
         const obj = Object.fromEntries(fd);
         firstPlayerName = obj.FirstName;
         secondPlayerName = obj.SecondName;
-        console.log(obj.SecondName);
-        console.log(obj.FirstName);
     });
 
     return {
