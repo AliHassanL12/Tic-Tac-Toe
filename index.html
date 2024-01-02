@@ -10,10 +10,20 @@
 <body>
     <div class="outer-container">
         <span class="winner"></span>
-        <div class="buttons">
-            <button class="start-game">Start Game</button>
-            <button class="reset-game">Reset</button>    
-        </div>
+        <form action="" method="get" class="form">
+            <div class="form-div">
+                <label for="firstPlayerName">1st Player Name: </label>
+                <input type="text" id="firstPlayerName" name="FirstName">
+            </div>
+            <div class="form-div">
+                <label for="secondPlayerName">2nd Player Name: </label>
+                <input type="text" id="secondPlayerName" name="SecondName">
+            </div>
+            <div class="buttons">
+                <button type="submit" class="start-game">Start Game</button>
+                <button type="button" class="reset-game">Reset</button>    
+            </div>
+        </form>
         <div class="container">
         </div>
 

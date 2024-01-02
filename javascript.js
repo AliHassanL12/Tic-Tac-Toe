@@ -99,6 +99,9 @@ const displayDOM = (function() {
     const container = document.querySelector('.container');
     const startBtn = document.querySelector('.start-game');
     const resetBtn = document.querySelector('.reset-game');
+    const form = document.querySelector('.form');
+    let firstPlayerName;
+    let secondPlayerName;
 
     startBtn.addEventListener("click", displayArray);
     resetBtn.addEventListener("click", resetGame);
@@ -129,7 +132,15 @@ const displayDOM = (function() {
 
     function announceWinner(){
         const winner = document.querySelector(".winner");
-        winner.textContent = `${game.player.getCurrentPlayer()} Has Won!`
+        if (game.player.getCurrentPlayer() == "X" && firstPlayerName !== undefined){
+            winner.textContent = `${firstPlayerName} Has Won!`
+        }
+        else if (game.player.getCurrentPlayer() == "O" && secondPlayerName !== undefined){
+            winner.textContent = `${secondPlayerName} Has Won!`
+        }
+        else {
+            winner.textContent = `${game.player.getCurrentPlayer()} Has Won!`
+        }
     }
 
     function removeDisplay(){
@@ -158,6 +169,17 @@ const displayDOM = (function() {
             placeItems();
         }
     }
+
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const fd = new FormData(form);
+        const obj = Object.fromEntries(fd);
+        firstPlayerName = obj.FirstName;
+        secondPlayerName = obj.SecondName;
+        console.log(obj.SecondName);
+        console.log(obj.FirstName);
+    });
+
     return {
         displayArray,
         placeItems,

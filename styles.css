@@ -20,7 +20,6 @@ body {
     display: grid;
     grid-template-columns: repeat(3, 150px);
     grid-template-rows: repeat(3, 150px);
-    margin-top: 20px;
     padding: 0;
     justify-content: center;
     align-content: center;
@@ -63,9 +62,32 @@ body {
     display: flex;
     width: 300px;
     gap: 30px;
+    margin: 20px;
 }
 
 .winner {
     font-size: 25px;
     padding: 30px;
+}
+
+input {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    width: 175px;
+}
+
+.form .form-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+}
+.form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
 }
